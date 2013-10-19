@@ -3,14 +3,14 @@ module SessionsHelper
     	remember_token = User.new_remember_token
     	cookies.permanent[:remember_token] = remember_token
     	user.update_attribute(:remember_token, User.encrypt(remember_token))
-    	self.current_user = user
+    	self.set_current_user = user
   	end
 
   	def signed_in?
     	!current_user.nil?
   	end
 
-  	def current_user=(user)
+  	def set_current_user=(user)
     	@current_user = user
   	end
 
@@ -40,7 +40,7 @@ module SessionsHelper
     end
 
     def store_location
-      session[:return_to] = request.url
+      session[:return_to] = request.url if request.get?
     end
   	
 end
